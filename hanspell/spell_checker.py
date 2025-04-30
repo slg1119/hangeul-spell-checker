@@ -5,24 +5,18 @@ Python용 한글 맞춤법 검사 모듈
 import requests
 import json
 import time
-import sys
 from collections import OrderedDict
 import xml.etree.ElementTree as ET
 
-from . import __version__
 from .response import Checked
 from .constants import base_url
 from .constants import CheckResult
 
 _agent = requests.Session()
-PY3 = sys.version_info[0] == 3
 
 
 def _remove_tags(text):
     text = "<content>{}</content>".format(text).replace("<br>", "")
-    if not PY3:
-        text = text.encode("utf-8")
-
     result = "".join(ET.fromstring(text).itertext())
 
     return result

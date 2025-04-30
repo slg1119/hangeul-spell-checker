@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import namedtuple
 
 # 조사와 어미도 단어로 처리함. 마땅한 영단어가 생각이 안 나서..

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from hanspell import spell_checker
 from hanspell.constants import CheckResult
