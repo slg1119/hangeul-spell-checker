@@ -1,5 +1,6 @@
+import asyncio
 import unittest
-from hanspell import spell_checker
+from hanspell import spell_checker, async_spell_checker
 from hanspell.constants import CheckResult
 from textwrap import dedent as trim
 
@@ -69,6 +70,34 @@ class SpellCheckerTests(unittest.TestCase):
         assert items["두"] == CheckResult.STATISTICAL_CORRECTION
         assert items["권"] == CheckResult.STATISTICAL_CORRECTION
         assert items["출간"] == CheckResult.PASSED
+
+
+# 비동기 테스트를 위한 예시 테스트 케이스
+class AsyncSpellCheckerTests(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def test_async_check(self):
+        # 비동기 함수를 실행하기 위한 유틸리티 함수
+        async def run_async_test():
+            result = await async_spell_checker.check_async(
+                "안녕 하세요. 저는 한국인 입니다. 이문장은 한글로 작성됬습니다."
+            )
+            self.assertEqual(result.errors, 4)
+            self.assertEqual(
+                result.checked,
+                "안녕하세요. 저는 한국인입니다. 이 문장은 한글로 작성됐습니다.",
+            )
+
+            # 리스트 테스트
+            results = await async_spell_checker.check_async(
+                ["안녕 하세요.", "저는 한국인 입니다."]
+            )
+            self.assertEqual(results[0].checked, "안녕하세요.")
+            self.assertEqual(results[1].checked, "저는 한국인입니다.")
+
+        # 비동기 테스트 실행
+        asyncio.run(run_async_test())
 
 
 if __name__ == "__main__":
