@@ -48,7 +48,7 @@ def check(text):
         return result
 
     # 최대 500자까지 가능.
-    if len(text) > 500:
+    if len(text) > 300:
         return Checked(result=False)
 
     payload = {

@@ -43,8 +43,8 @@ async def check_async(text):
         tasks = [check_async(item) for item in text]
         return await asyncio.gather(*tasks)
 
-    # 최대 500자까지 가능.
-    if len(text) > 500:
+    # 최대 300자까지 가능.
+    if len(text) > 300:
         return Checked(result=False)
 
     passport_key = await _get_passport_key_async()
