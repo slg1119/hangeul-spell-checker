@@ -13,6 +13,7 @@ from .constants import base_url
 from .utils import remove_tags, process_html_result
 
 _agent = requests.Session()
+passport_key = ""
 
 
 def _get_passport_key():
@@ -23,6 +24,7 @@ def _get_passport_key():
     html에서 passportKey를 검색하면 값을 찾을 수 있다.
     """
 
+    global passport_key
     url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=네이버+맞춤법+검사기"
     res = requests.get(url)
 
@@ -31,11 +33,7 @@ def _get_passport_key():
     match = re.search(r'passportKey=([^&"}]+)', html_text)
     if match:
         passport_key = match.group(1)
-        return passport_key
-    else:
-        assert (
-            False
-        ), "passportKey를 찾을 수 없습니다. 네이버 맞춤법 검사기 페이지를 확인하세요."
+    return passport_key
 
 
 def check(text):

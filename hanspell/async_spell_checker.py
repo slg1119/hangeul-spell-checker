@@ -13,12 +13,14 @@ from hanspell.response import Checked
 from hanspell.utils import remove_tags, process_html_result
 
 ssl_context = ssl.create_default_context(cafile=certifi.where())
+passport_key = ""
 
 
 async def _get_passport_key_async():
     """
     네이버에서 '네이버 맞춤법 검사기' 페이지에서 passportKey를 비동기로 획득
     """
+    global passport_key
     url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=네이버+맞춤법+검사기"
 
     async with aiohttp.ClientSession(
@@ -30,11 +32,7 @@ async def _get_passport_key_async():
     match = re.search(r'passportKey=([^&"}]+)', html_text)
     if match:
         passport_key = match.group(1)
-        return passport_key
-    else:
-        assert (
-            False
-        ), "passportKey를 찾을 수 없습니다. 네이버 맞춤법 검사기 페이지를 확인하세요."
+    return passport_key
 
 
 async def check_async(text):
